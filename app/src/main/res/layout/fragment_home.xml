@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".DriverHomeActivity" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#0c3047"
+        android:id="@+id/choose_owner"
+        >
+        <LinearLayout
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_200sdp"
+            >
+            <Button
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="wrap_content"
+                android:text="i'm driver"
+
+                android:id="@+id/owner_car"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:backgroundTint="@color/white"
+
+                />
+            <Button
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="wrap_content"
+                android:text="i'm mechanic"
+                android:id="@+id/owner_mechanic"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+
+                />
+            <Button
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="wrap_content"
+                android:text="i'm ownerwinch"
+                android:id="@+id/owner_winch"
+
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_margin="@dimen/_16sdp"
+        android:textColor="@android:color/white"
+        android:text="@string/decline"
+        app:chipBackgroundColor="@color/colorAccent"
+        app:chipIcon="@drawable/ic_baseline_clear_24"
+        app:checkedIconTint="@android:color/white"
+        android:id="@+id/chip_decline"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_accept"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="@dimen/_8sdp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/_16sdp"
+         >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_type_uber"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:text="Uber"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_18sdp"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:gravity="center">
+                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                        android:id="@+id/circularProgressBar"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        app:cpb_background_progressbar_color="@android:color/white"
+                        app:cpb_background_progressbar_width="3dp"
+                        app:cpb_progress="0"
+                        app:cpb_progress_max="100"
+                        app:cpb_progress_direction="to_right"
+                        app:cpb_progressbar_color="#151828"
+                        app:cpb_progressbar_width="@dimen/_3sdp"
+                        app:cpb_round_border="false" />
+
+
+                    <ImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:clickable="false"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_baseline_person_24"
+                        app:tint="@android:color/white" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_ratting"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:text="4.25"
+                    android:drawableRight="@drawable/ic_baseline_star_24"
+
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_18sdp"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_estimate_time"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="2 min"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_20sdp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_estimate_distance"
+                android:layout_gravity="center_horizontal"
+
+                android:text=".4 km"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_16sdp"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

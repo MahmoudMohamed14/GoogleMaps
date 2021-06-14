@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">CarRescueDriver</string>
+    <string name="title_activity_driver_home">DriverHomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_maps">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="sign_up">Sign Up!</string>
+    <string name="fill">
+        Please fill your details below to complete your account
+    </string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last name</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="phone">Phone</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="decline">Decline</string>
+    <string name="permission_require">Permission Require</string>
+</resources>
