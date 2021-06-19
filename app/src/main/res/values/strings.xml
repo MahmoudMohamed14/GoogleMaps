@@ -30,4 +30,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="decline">Decline</string>
     <string name="permission_require">Permission Require</string>
+    <string name="token_not_found">Token Not Found</string>
+    <string name="decline_failed">Decline Failed</string>
+    <string name="decline_success">You have decline this request</string>
 </resources>

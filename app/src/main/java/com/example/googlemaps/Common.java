@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Common {
+    public static final String DRIVER_KEY ="DriverKey" ;
     public  static    String  DRIVER__INFO;
     public static   final String LOCATION_REFERANCE_Driver="DriverLocation";
     public static   final String LOCATION_REFERANCE_mechanic="MechanicLocation";
@@ -32,6 +33,7 @@ public class Common {
     public static final String RIDER_PICKUP_LOCATION ="PickupLocation" ;
     public static final String RiDER_KEY = "RiderKey";
     public static final String REQUEST_DRIVER_TITLE ="RequestDriver" ;
+    public static final String REQUEST_DRIVER_DECLINE="Decline" ;
     //DECODE POLY
     public static List<LatLng> decodePoly(String encoded) {
         List poly = new ArrayList();

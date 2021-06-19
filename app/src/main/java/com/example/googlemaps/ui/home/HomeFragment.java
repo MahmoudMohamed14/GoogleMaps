@@ -44,6 +44,7 @@ import com.example.googlemaps.MechanicInfo;
 import com.example.googlemaps.R;
 import com.example.googlemaps.Remote.IgoogleApi;
 import com.example.googlemaps.Remote.RetrofitClient;
+import com.example.googlemaps.UserUtils;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -107,6 +108,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
@@ -134,7 +136,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     Button owner_mechanic;
     @BindView(R.id.owner_winch)
     Button owner_winch;
+   @OnClick(R.id.chip_decline)
+   void onCliclkDecline(){
+       if(driverRequestRecieve!=null){
+           if(coundDownEvent!=null)
+               coundDownEvent.dispose();
+           chip_decline.setVisibility(View.GONE);
+           layout_accept.setVisibility(View.GONE);
+           mMap.clear();
+           UserUtils.sendDeslineRequest(root_layout,getContext(),driverRequestRecieve.getKey());
+           driverRequestRecieve=null;
 
+       }
+
+   }
 
     //route
     //routes
@@ -143,6 +158,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private Polyline balckpolyline, greypolyline;
     private PolylineOptions polylineOptions, blaclpolylineoption;
     private List<LatLng> polylinelist;
+    private DriverRequestRecieve driverRequestRecieve;
+    private Disposable coundDownEvent;
 
     private HomeViewModel homeViewModel;
     private GoogleMap mMap;
@@ -225,22 +242,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         igoogleApi = RetrofitClient.getInstance().create(IgoogleApi.class);
         onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected");
-
-        // DRIVER_LOCATION_REFERANCE = "MechanicLocation";
-       // DRIVER_LOCATION_REFERANCE = "MechanicLocation";
-
-
-       // Query driver=FirebaseDatabase.getInstance().getReference("DriverLocation").orderByChild("id").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-           // DRIVER_LOCATION_REFERANCE="DriverLocation";
-
-       // Query winch=FirebaseDatabase.getInstance().getReference("RescueWinchLocation").orderByChild("id").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-
-
-
-
-
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -476,11 +477,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onDriverRequestRecieve(final DriverRequestRecieve event) {
+        driverRequestRecieve=event;
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Snackbar.make(requireView(),getString(R.string.permission_require) , Snackbar.LENGTH_LONG).show();
             return;
         }
+        //get current location
         mfusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -580,7 +583,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                     chip_decline.setVisibility(View.VISIBLE);
                                     layout_accept.setVisibility(View.VISIBLE);
                                     //count down
-                                    Observable.interval(100, TimeUnit.MILLISECONDS)
+
+                                    coundDownEvent= Observable.interval(100, TimeUnit.MILLISECONDS)
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .doOnNext(new Consumer<Long>() {
                                                 @Override
@@ -598,6 +602,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                               .doOnComplete(new Action() {
                                                   @Override
                                                   public void run() throws Exception {
+                                                      circularProgressBar.setProgress(0);
                                                       Toast.makeText(getContext(), " Fake accept Action", Toast.LENGTH_SHORT).show();
 
                                                   }

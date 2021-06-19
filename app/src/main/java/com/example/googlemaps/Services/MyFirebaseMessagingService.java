@@ -30,7 +30,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if(dataReceive!=null){
             if(dataReceive.get(Common.NOTI_TITLE).equals(Common.REQUEST_DRIVER_TITLE)){
                 EventBus.getDefault().postSticky(new DriverRequestRecieve(dataReceive.get(Common.RiDER_KEY)
-                        ,dataReceive.get(Common.RIDER_PICKUP_LOCATION)));
+                        ,dataReceive.get(Common.RIDER_PICKUP_LOCATION),dataReceive.get("TYPE_CAR")));
 
             }else {
 

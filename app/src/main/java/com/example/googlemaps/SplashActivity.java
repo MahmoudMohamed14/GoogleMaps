@@ -67,6 +67,20 @@ DatabaseReference databaseReference;
 
             startActivity(intent);
             finish();
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SplashActivity.this, e.getMessage()+"her", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    Log.d("token",instanceIdResult.getToken());
+                    UserUtils.updateToken(SplashActivity.this,instanceIdResult.getToken());
+
+                }
+            });
             /*
         FirebaseDatabase.getInstance().getReference("MechanicInfo").child(FirebaseAuth.getInstance()
                 .getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -122,20 +136,7 @@ DatabaseReference databaseReference;
                             intent.putExtra("DRIVER_LOCATION_REFERANCE","DriverLocation");
                             startActivity(intent);
                             finish();
-                            FirebaseInstanceId.getInstance().getInstanceId()
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(SplashActivity.this, e.getMessage()+"her", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-                                @Override
-                                public void onSuccess(InstanceIdResult instanceIdResult) {
-                                    Log.d("token",instanceIdResult.getToken());
-                                    UserUtils.updateToken(SplashActivity.this,instanceIdResult.getToken());
 
-                                }
-                            });
 
 
                     }
