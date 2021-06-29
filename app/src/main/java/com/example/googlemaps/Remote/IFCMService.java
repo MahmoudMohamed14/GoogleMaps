@@ -1,7 +1,8 @@
 package com.example.googlemaps.Remote;
 
-import com.example.googlemaps.FCMResponse;
-import com.example.googlemaps.FCMSendData;
+
+import com.example.googlemaps.Model.FCMResponse;
+import com.example.googlemaps.Model.FCMSendData;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;

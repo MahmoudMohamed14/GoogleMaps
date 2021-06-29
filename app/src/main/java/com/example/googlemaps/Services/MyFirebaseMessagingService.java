@@ -14,6 +14,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Map;
 import java.util.Random;
 
+import kotlin.UInt;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
@@ -29,8 +31,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String,String>dataReceive=remoteMessage.getData();
         if(dataReceive!=null){
             if(dataReceive.get(Common.NOTI_TITLE).equals(Common.REQUEST_DRIVER_TITLE)){
-                EventBus.getDefault().postSticky(new DriverRequestRecieve(dataReceive.get(Common.RiDER_KEY)
-                        ,dataReceive.get(Common.RIDER_PICKUP_LOCATION),dataReceive.get("TYPE_CAR")));
+                DriverRequestRecieve driverRequestRecieve=new DriverRequestRecieve();
+                driverRequestRecieve.setKey(dataReceive.get(Common.RiDER_KEY));
+                driverRequestRecieve.setCartype(dataReceive.get(Common.TYPE_CAR));
+                driverRequestRecieve.setPickuplocation(dataReceive.get(Common.RIDER_PICKUP_LOCATION));
+                driverRequestRecieve.setPickuplocationstring(dataReceive.get(Common.RIDER_PICKUP_LOCATION_STRING));
+                driverRequestRecieve.setDestinationlocation(dataReceive.get(Common.RIDER_DESTINATION));
+                driverRequestRecieve.setDestinationlocationstring(dataReceive.get(Common.RIDER_DESTINATION_STRING));
+                EventBus.getDefault().postSticky(driverRequestRecieve);
 
             }else {
 

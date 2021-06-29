@@ -15,19 +15,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".DriverHomeActivity" />
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/_2sdp"
         android:orientation="vertical"
-        android:background="#0c3047"
+        android:backgroundTint="#0c3047"
         android:id="@+id/choose_owner"
         >
         <LinearLayout
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_200sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_200sdp"
+
             >
             <Button
                 android:layout_width="@dimen/_150sdp"
@@ -66,7 +69,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
     <com.google.android.material.chip.Chip
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,10 +108,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txt_type_uber"
+                    android:id="@+id/txt_type_carrescue"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/_8sdp"
-                    android:text="Uber"
+                    android:text="CARRESCUE"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_18sdp"/>
                 <RelativeLayout
@@ -131,6 +134,7 @@
 
 
                     <ImageView
+                        android:id="@+id/img_round"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:clickable="false"
@@ -172,5 +176,118 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_start_carRescue"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+
+
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_gravity="bottom"
+
+
+        app:cardCornerRadius="@dimen/_8sdp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp"
+            >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_start_carrescue"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        />
+    <TextView
+        android:id="@+id/txt_start_carrescue_estimate_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 min"
+        android:layout_toLeftOf="@+id/img_start_carrescue"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/txt_start_carrescue_estimate_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=".5 km"
+        android:layout_toRightOf="@+id/img_start_carrescue"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_baseline_format_list_bulleted_24"
+        />
+</RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:background="@color/colorAccent"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_phone_call"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/ic_baseline_perm_phone_msg_24"/>
+
+                <TextView
+                    android:id="@+id/txt_rider_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="@dimen/_16sdp"
+                    android:text="mahmoud"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <ImageView
+                    android:id="@+id/img_three_dot"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_baseline_more_vert_24"
+                    />
+
+            </RelativeLayout>
+            <com.kusu.library.LoadingButton
+                android:id="@+id/btn_start_carrescue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                app:lb_isCircular="false"
+                android:text="@string/start_carrescure"
+                android:textColor="@color/white"
+                app:lb_buttonColor="@color/Black"
+                android:textStyle="bold"
+                android:textSize="@dimen/_16sdp"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </FrameLayout>

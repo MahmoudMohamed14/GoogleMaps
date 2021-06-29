@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.googlemaps.Model.DriverInfo;
 import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +39,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
 
         database=FirebaseDatabase.getInstance();
          RadioGroup radioGroup=(RadioGroup)findViewById(R.id.radio_group);
@@ -70,6 +72,16 @@ public class SignUp extends AppCompatActivity {
         });
         showregistyerlayout();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(SignUp.this,SplashActivity.class);
+        startActivity(i);
+    }
+
+
+
     private void showregistyerlayout() {
 
 

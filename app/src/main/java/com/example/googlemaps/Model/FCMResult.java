@@ -1,4 +1,4 @@
-package com.example.googlemaps;
+package com.example.googlemaps.Model;
 
 public class FCMResult {
     private String message_id;

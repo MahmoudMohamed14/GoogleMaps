@@ -1,4 +1,4 @@
-package com.example.googlemaps.Services;
+package com.example.googlemaps.Model;
 
 public class TokenModel {
     private String Token;

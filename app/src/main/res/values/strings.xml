@@ -33,4 +33,6 @@
     <string name="token_not_found">Token Not Found</string>
     <string name="decline_failed">Decline Failed</string>
     <string name="decline_success">You have decline this request</string>
+    <string name="start_carrescure">"start "</string>
+    <string name="rider_not_found">Can Not Find Rider With Key</string>
 </resources>

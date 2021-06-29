@@ -1,4 +1,6 @@
-package com.example.googlemaps;
+package com.example.googlemaps.Model;
+
+
 
 import java.util.List;
 

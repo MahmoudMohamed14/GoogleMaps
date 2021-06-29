@@ -13,12 +13,14 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.googlemaps.Model.DriverInfo;
 import com.example.googlemaps.Services.MyFirebaseMessagingService;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Common {
     public static final String DRIVER_KEY ="DriverKey" ;
@@ -29,11 +31,18 @@ public class Common {
     public static final String TOKEN_REFRANCE = "Token";
     public static final String NOTI_TITLE = "title";
     public static final String NOTI_CONTANT ="body" ;
-    public static  DriverInfo driverInfo;
+    public static DriverInfo driverInfo;
     public static final String RIDER_PICKUP_LOCATION ="PickupLocation" ;
     public static final String RiDER_KEY = "RiderKey";
     public static final String REQUEST_DRIVER_TITLE ="RequestDriver" ;
     public static final String REQUEST_DRIVER_DECLINE="Decline" ;
+    public static final String RIDER_PICKUP_LOCATION_STRING = "PickupLocationString" ;
+    public static final String RIDER_DESTINATION_STRING ="DestinationLocationString" ;
+    public static final String RIDER_DESTINATION = "DestinationLocation";
+    public static final String TYPE_CAR="TYPE_CAR";
+    public static final String RIDER__INFO ="Riders" ;
+    public static String Trips="Trips";
+
     //DECODE POLY
     public static List<LatLng> decodePoly(String encoded) {
         List poly = new ArrayList();
@@ -112,5 +121,13 @@ public class Common {
 
 
 
+    }
+
+    public static String createUniqueTripeIdNumber(long timeoffset) {
+        Random random= new Random();
+        Long current=System.currentTimeMillis()+timeoffset;
+        Long unique=current+random.nextLong();
+        if(unique<0) unique*=-1;
+        return String.valueOf(unique);
     }
 }
