@@ -80,12 +80,7 @@ public class SignUp extends AppCompatActivity {
         startActivity(i);
     }
 
-
-
     private void showregistyerlayout() {
-
-
-
        final EditText firstName =findViewById(R.id.firstName);
         final EditText  lastName = findViewById(R.id.lastName);
         final EditText useremail = findViewById(R.id.email);

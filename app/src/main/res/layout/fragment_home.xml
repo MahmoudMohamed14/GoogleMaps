@@ -244,6 +244,33 @@
                 android:layout_marginBottom="@dimen/_16sdp"
                 android:background="@color/colorAccent"
                 />
+            <LinearLayout
+                android:id="@+id/layout_notify_rider"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txt_notify_rider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="02:00"
+                    android:textSize="@dimen/_18sdp"
+
+                    />
+                <ProgressBar
+                    android:id="@+id/progress_notify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:indeterminate="false"
+                    android:min="0"
+                    android:max="120"
+
+                    />
+
+            </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -272,20 +299,42 @@
                     />
 
             </RelativeLayout>
-            <com.kusu.library.LoadingButton
-                android:id="@+id/btn_start_carrescue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:paddingRight="@dimen/_10sdp"
-                android:paddingLeft="@dimen/_10sdp"
-                app:lb_isCircular="false"
-                android:text="@string/start_carrescure"
-                android:textColor="@color/white"
-                app:lb_buttonColor="@color/Black"
-                android:textStyle="bold"
-                android:textSize="@dimen/_16sdp"
-                />
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <com.kusu.library.LoadingButton
+          android:id="@+id/btn_start_carrescue"
+          android:enabled="false"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/_20sdp"
+          android:paddingRight="@dimen/_10sdp"
+          android:paddingLeft="@dimen/_10sdp"
+          app:lb_isCircular="false"
+          android:text="@string/start_carrescure"
+          android:textColor="@color/white"
+          app:lb_buttonColor="@color/Black"
+          android:textStyle="bold"
+          android:textSize="@dimen/_16sdp"
+          />
+      <com.kusu.library.LoadingButton
+          android:id="@+id/btn_complete_trip"
+          android:enabled="false"
+          android:visibility="gone"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/_20sdp"
+          android:paddingRight="@dimen/_10sdp"
+          android:paddingLeft="@dimen/_10sdp"
+          app:lb_isCircular="false"
+          android:text="@string/complete"
+          android:textColor="@color/white"
+          app:lb_buttonColor="@color/Black"
+          android:textStyle="bold"
+          android:textSize="@dimen/_16sdp"
+          />
+  </FrameLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

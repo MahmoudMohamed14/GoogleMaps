@@ -24,7 +24,15 @@ import java.util.Random;
 
 public class Common {
     public static final String DRIVER_KEY ="DriverKey" ;
-    public  static    String  DRIVER__INFO;
+    public static final String REQUEST_DRIVER_ACCEPT ="Accept" ;
+    public static final String TRIP_KEY ="TripKey" ;
+    public static final String TRIP_PICKUP_REF = "TripPickupLocation";
+    public static final double MIN_RANGE_PICKUP_IN_KM =.05 ;//50m
+    public static final int WAIT_TIME_IN_MIN =1 ;
+    public static final String RIDER_DESTINATION_LOCATION_REF= "TripDestinationLocation";
+    public static final String REQUEST_DRIVER_DECLINE_AND_REMOVE_TRIP ="DeclineAndRemoveTrip" ;
+    public static final String RIDER_COMPLETE_TRIP ="RiderCompleteTrip" ;
+    public  static    String  DRIVER__INFO="";
     public static   final String LOCATION_REFERANCE_Driver="DriverLocation";
     public static   final String LOCATION_REFERANCE_mechanic="MechanicLocation";
     public static   final String LOCATION_REFERANCE_winch="RescueWinchLocation";
@@ -91,13 +99,13 @@ public class Common {
         PendingIntent pendingIntent=null;
         if(intent!=null)
             pendingIntent=PendingIntent.getActivity(context,id,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-        String NOTIFICATION_CHANNEL_ID="edmt_dev_uber_remake";
+        String NOTIFICATION_CHANNEL_ID="car_rescue_remake";
         NotificationManager notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel notificationChannel=new NotificationChannel(NOTIFICATION_CHANNEL_ID,
-                    "UBER Remake",NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription("Uber Remake");
+                    "CARRESCUE Remake",NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription("CARRESCUE Remake");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.setVibrationPattern(new long[]{0,1000,500,1000});
