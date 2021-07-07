@@ -56,8 +56,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
-
+import static com.example.googlemaps.ui.home.HomeFragment.currnetRef;
 
 
 @SuppressWarnings("unchecked")
@@ -79,6 +78,7 @@ public class DriverHomeActivity extends AppCompatActivity {
     CircleImageView image_profile;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
+    private StorageReference mStorageRef;
 
 
     @Override
@@ -88,7 +88,7 @@ public class DriverHomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         storageReference=FirebaseStorage.getInstance().getReference("uploads");
-
+        mStorageRef= FirebaseStorage.getInstance().getReference();
 
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -126,8 +126,8 @@ public class DriverHomeActivity extends AppCompatActivity {
 
 
                             FirebaseAuth.getInstance().signOut();
-//                            if(currnetRef!=null)
-//                                currnetRef.removeValue();
+                            if(currnetRef!=null)
+                                currnetRef.removeValue();
 
                             Intent intent=new Intent(DriverHomeActivity.this,SplashActivity.class);
                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -158,15 +158,30 @@ public class DriverHomeActivity extends AppCompatActivity {
         TextView star=headerView.findViewById(R.id.star_profile);
 
          image_profile=headerView.findViewById(R.id.image_profile);
-if(Common.driverInfo!=null) {
+         FirebaseDatabase.getInstance().getReference(Common.DRIVER__INFO).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                 if(snapshot.exists()){
+                     Common.driverInfo=snapshot.getValue(DriverInfo.class);
+                     name.setText(Common.driverInfo.getName());
+                     phone.setText(Common.driverInfo.getPhone());
+                     if (!Common.driverInfo.getImage().equals("default")) {
+                         Glide.with(DriverHomeActivity.this).load(Common.driverInfo.getImage()).into(image_profile);
+                     }
+
+                 }
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError error) {
+
+             }
+         });
 
 
-    name.setText(Common.driverInfo.getName());
-    phone.setText(Common.driverInfo.getPhone());
-    if (!Common.driverInfo.getImage().equals("default")) {
-        Glide.with(DriverHomeActivity.this).load(Common.driverInfo.getImage()).into(image_profile);
-    }
-}
+
+
+
 
         image_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +190,7 @@ if(Common.driverInfo!=null) {
 
             }
         });
-//        name.setText(Common.buildWelcomeMessage());
+//      name.setText(Common.buildWelcomeMessage());
 //       // phone.setText(Common.driverInfo!=null? Common.driverInfo.getPhone():"010987 ");
 //        star.setText(Common.driverInfo!=null? Common.driverInfo.getRating():"0.0 ");
 
@@ -197,44 +212,69 @@ if(Common.driverInfo!=null) {
         startActivityForResult(intent,PICK_IMAGE_REQUST);
     }
 
+
     private void uploadimage() {
-        if(uriprofile!=null){
-            firebaseStorage = FirebaseStorage.getInstance();
-            storageReference = firebaseStorage.getReference("uploads");
-
-            final StorageReference riversRef = storageReference.child(System.currentTimeMillis()+"."+getfileextention(uriprofile));
-
-            storageTask= riversRef.putFile(uriprofile);
-            storageTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot,Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if(!task.isSuccessful()){
-                        throw  task.getException();
+        AlertDialog.Builder builder=new     AlertDialog.Builder(DriverHomeActivity.this);
+        builder.setTitle("Change Image")
+                .setMessage("Do you really want to Change Image ")
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
-                    return riversRef.getDownloadUrl();
+                }).setPositiveButton("UPLOAD", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(uriprofile!=null){
+                    waitdialog.setMessage("Uploading...");
+                    waitdialog.show();
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful()){
-                        Uri uri=task.getResult();
-                        String iuri=uri.toString();
-                        HashMap<String,Object>hashMap=new HashMap<>();
-                        uridawnlaod=  riversRef.getDownloadUrl().toString();
-                        hashMap.put("image",iuri);
-                      databaseReference.child(FirebaseAuth.getInstance().getCurrentUser()
-                                .getUid()).updateChildren(hashMap);
+                String unique_name=FirebaseAuth.getInstance().getCurrentUser().getUid();
+                final StorageReference imagefolder=mStorageRef.child("image/"+unique_name);
+                imagefolder.putFile(uriprofile).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        waitdialog.dismiss();
+                        Snackbar.make(drawer,e.getMessage(),Snackbar.LENGTH_LONG).show();
                     }
+                }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if(task.isSuccessful()){
+                            imagefolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    HashMap<String,Object> updatedata=new HashMap<>() ;
+                                    updatedata.put("image",uri.toString());
+                                    FirebaseDatabase.getInstance().getReference(Common.DRIVER__INFO)
+                                            .child(FirebaseAuth.getInstance().getCurrentUser()
+                                                    .getUid()).updateChildren(updatedata);
+                                }
+                            });
+                        }
+                        waitdialog.dismiss();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progress=(100.0*snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                        waitdialog.setMessage(new StringBuilder("Uploading: ").append(progress).append("%"));
+                    }
+                });
 
-                }
+            }
+        }).setCancelable(false);
+        final AlertDialog dialog=builder.create();
+        //control button
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface DialogInterface) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(DriverHomeActivity.this,android.R.color.holo_red_dark));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(DriverHomeActivity.this,R.color.colorAccent));
 
-            });
-
-        }else{
-            Toast.makeText(getBaseContext(), "no file selection", Toast.LENGTH_SHORT).show();
-        }
-
-
+            }
+        });
+        dialog.show();
     }
 
 
@@ -257,6 +297,18 @@ if(Common.driverInfo!=null) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.driver_home, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.off_location:
+                if(currnetRef!=null) currnetRef.removeValue();
+               return true;
+
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

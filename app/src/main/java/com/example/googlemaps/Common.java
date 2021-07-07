@@ -32,7 +32,7 @@ public class Common {
     public static final String RIDER_DESTINATION_LOCATION_REF= "TripDestinationLocation";
     public static final String REQUEST_DRIVER_DECLINE_AND_REMOVE_TRIP ="DeclineAndRemoveTrip" ;
     public static final String RIDER_COMPLETE_TRIP ="RiderCompleteTrip" ;
-    public  static    String  DRIVER__INFO="";
+    public  static    String DRIVER__INFO="DriverInfo";
     public static   final String LOCATION_REFERANCE_Driver="DriverLocation";
     public static   final String LOCATION_REFERANCE_mechanic="MechanicLocation";
     public static   final String LOCATION_REFERANCE_winch="RescueWinchLocation";

@@ -244,6 +244,7 @@ public class UserUtils {
                             notification.put(Common.NOTI_CONTANT,"This message repre sent for action driver decline");
                             notification.put(Common.DRIVER_KEY,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+
                             FCMSendData fcmSendData=new FCMSendData(tokenModel.getToken(),notification);
                             compositeDisposable.add(ifcmService.sendNotification(fcmSendData)
                                     .subscribeOn(Schedulers.newThread())

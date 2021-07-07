@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class LocationUtils {
-    public static String getAddressFromLocation(Context context, Location location){
+    public static String getAddressFromLocation(Context context, Location location)  {
         StringBuilder result= new StringBuilder();
         Geocoder geocoder=new Geocoder(context, Locale.getDefault());
         List<Address> addressList;

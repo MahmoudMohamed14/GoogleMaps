@@ -10,6 +10,7 @@
      >
 
     <fragment
+
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
@@ -198,11 +199,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-        />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -230,12 +227,7 @@
         android:layout_centerVertical="true"
         android:textStyle="bold"
         />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_baseline_format_list_bulleted_24"
-        />
+
 </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -273,6 +265,36 @@
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:id="@+id/relative_type_car"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/img_start_car"
+                    android:layout_marginLeft="@dimen/_80sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+
+                    android:src="@drawable/ic_baseline_directions_car_24"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_start_type_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BMW"
+                    android:layout_toRightOf="@+id/img_start_car"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="@color/Black"
+                    />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/img_phone_call"
@@ -304,7 +326,7 @@
       android:layout_height="wrap_content">
       <com.kusu.library.LoadingButton
           android:id="@+id/btn_start_carrescue"
-          android:enabled="false"
+
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/_20sdp"
@@ -319,7 +341,7 @@
           />
       <com.kusu.library.LoadingButton
           android:id="@+id/btn_complete_trip"
-          android:enabled="false"
+
           android:visibility="gone"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"

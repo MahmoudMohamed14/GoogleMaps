@@ -44,6 +44,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.example.googlemaps.Common;
 
 import com.example.googlemaps.EventBus.DriverRequestRecieve;
@@ -181,6 +182,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     Button owner_mechanic;
     @BindView(R.id.owner_winch)
     Button owner_winch;
+    @BindView(R.id.relative_type_car)
+    RelativeLayout relative_type_car;
+    @BindView(R.id.txt_start_type_car)
+    TextView txt_start_type_car;
     public int pointer;
 
 
@@ -191,7 +196,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private GeoQueryEventListener pickupGeoQueryListener = new GeoQueryEventListener() {
         @Override
         public void onKeyEntered(String key, GeoLocation location) {
-            btn_start_carrescue.setEnabled(true);//when driver arrived in pickup location ,can star trip;
+//            if(pointer==1||pointer==3){
+//                btn_start_carrescue.setEnabled(true);
+//            }else  if(pointer==2){
+//                btn_complete_trip.setEnabled(true);
+//            }
+          //when driver arrived in pickup location ,can star trip;
             UserUtils.sendNotifytoReder(getContext(), root_layout, key);
             if (pickupGeoQuery != null) {
                 //remove geofire
@@ -203,7 +213,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onKeyExited(String key) {
-            btn_start_carrescue.setEnabled(false);
+          //  btn_start_carrescue.setEnabled(false);
 
         }
 
@@ -225,7 +235,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private GeoQueryEventListener destinationGeoQueryListener = new GeoQueryEventListener() {
         @Override
         public void onKeyEntered(String key, GeoLocation location) {
-            btn_complete_trip.setEnabled(true);
+//            btn_complete_trip.setEnabled(true);
             if (destinationGeoQuery != null) {
                 destinationGeoFire.removeLocation(key);
                 destinationGeoFire = null;
@@ -257,6 +267,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private CountDownTimer wait_time;
     private String refer = "";
     private String cityName="";
+    private DatabaseReference myRef;
 
     @OnClick(R.id.chip_decline)
     void onCliclkDecline() {
@@ -371,10 +382,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         layout_start_carRescue.setVisibility(View.GONE);
                         circularProgressBar.setProgress(0);
                         progress_notify.setProgress(0);
-                        btn_complete_trip.setEnabled(false);
-                        btn_complete_trip.setVisibility(View.GONE);
-                        btn_start_carrescue.setEnabled(false);
-                        btn_start_carrescue.setVisibility(View.VISIBLE);
+                      //  btn_complete_trip.setEnabled(false);
+                       // btn_complete_trip.setVisibility(View.GONE);
+                       // btn_start_carrescue.setEnabled(false);
+                       // btn_start_carrescue.setVisibility(View.VISIBLE);
                         destinationGeoFire=null;
                         pickupGeofire=null;
                         driverRequestRecieve=null;
@@ -511,7 +522,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     LocationCallback callback;
     SupportMapFragment mapFragment;
      DatabaseReference onlineRef, driverlocationRef;
-    DatabaseReference  currnetRef;
+     public static  DatabaseReference  currnetRef;
+    DriverInfo driverInfo;
 
 
     private boolean isFirstTime = true;
@@ -535,21 +547,30 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroy() {
-        if(currnetRef!=null) currnetRef.removeValue();
+
         mfusedLocationProviderClient.removeLocationUpdates(callback);
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
             geoFire.removeLocation(FirebaseAuth.getInstance().getCurrentUser().getUid());
         onlineRef.removeEventListener(onlineValueEventListener);
+
 
         if (EventBus.getDefault().hasSubscriberForEvent(DriverRequestRecieve.class))
             EventBus.getDefault().removeStickyEvent(DriverRequestRecieve.class);
         if (EventBus.getDefault().hasSubscriberForEvent(NotifyToRiderEvent.class))
             EventBus.getDefault().removeStickyEvent(NotifyToRiderEvent.class);
         EventBus.getDefault().unregister(this);
-        compositeDisposable.clear();
         onLineSystemAlreadyRegister=false;
+        compositeDisposable.clear();
+
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+
+        if(currnetRef!=null) currnetRef.removeValue();
+        super.onDetach();
     }
 
     @Override
@@ -596,7 +617,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         igoogleApi = RetrofitClient.getInstance().create(IgoogleApi.class);
         onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected");
-        choose_owner.setVisibility(View.VISIBLE);
+
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -604,9 +625,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             return;
 
         }
-        onClickWinch();
-        onClickMechanic();
-        onClickCar();
+//        onClickWinch();
+//        onClickMechanic();
+//        onClickCar();
+        uploadAndDownlod();
 
     }
 
@@ -618,11 +640,28 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 pointer=1;
                 refer=Common.LOCATION_REFERANCE_Driver;
+
                 choose_owner.setVisibility(View.GONE);
                 buildLocationRequest();
 
-                buildLocationCallback(refer);
+                buildLocationCallback(Common.LOCATION_REFERANCE_Driver);
                 updateLocation();
+
+//                databaseReference=FirebaseDatabase.getInstance().getReference( "DriverInfo");
+//                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if(snapshot.exists()) {
+//                            driverInfo = snapshot.getValue(DriverInfo.class);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
 
             }
         });
@@ -639,13 +678,86 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 choose_owner.setVisibility(View.GONE);
                 buildLocationRequest();
 
-                buildLocationCallback(refer);
+                buildLocationCallback(Common.LOCATION_REFERANCE_mechanic);
                 updateLocation();
+//                databaseReference=FirebaseDatabase.getInstance().getReference( "MechanicInfo");
+//                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if(snapshot.exists()) {
+//                            driverInfo = snapshot.getValue(DriverInfo.class);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+
 
             }
         });
 
     }
+    public void uploadAndDownlod(){
+
+        FirebaseDatabase.getInstance().getReference(Common.DRIVER__INFO) .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+
+                    driverInfo=snapshot.getValue(DriverInfo.class);
+                    if(driverInfo!=null) {
+                        if (driverInfo.getService().equals("Driver")) {
+                            pointer = 1;
+                            refer = Common.LOCATION_REFERANCE_Driver;
+
+
+                            buildLocationRequest();
+
+                            buildLocationCallback(Common.LOCATION_REFERANCE_Driver);
+                            updateLocation();
+
+                        }
+                        else if (driverInfo.getService().equals("Mechanic")) {
+                            pointer = 2;
+                            refer = Common.LOCATION_REFERANCE_mechanic;
+
+
+                            buildLocationRequest();
+
+                            buildLocationCallback(Common.LOCATION_REFERANCE_mechanic);
+                            updateLocation();
+
+                        }
+                        else if (driverInfo.getService().equals("RescueWinch")) {
+                            pointer = 3;
+                            refer = Common.LOCATION_REFERANCE_winch;
+
+
+                            buildLocationRequest();
+
+                            buildLocationCallback(Common.LOCATION_REFERANCE_winch);
+                            updateLocation();
+
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "some thing rong"+error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+            }
+
+
 
     public void onClickWinch() {
 
@@ -658,8 +770,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 choose_owner.setVisibility(View.GONE);
                 buildLocationRequest();
 
-                buildLocationCallback(refer);
+                buildLocationCallback(Common.LOCATION_REFERANCE_winch);
                 updateLocation();
+//                databaseReference=FirebaseDatabase.getInstance() .getReference( "RescueWinchInfo");
+//                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if(snapshot.exists()) {
+//                            driverInfo = snapshot.getValue(DriverInfo.class);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
 
             }
         });
@@ -687,6 +814,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
                             return true;
                         }
+
 
                         mfusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -719,9 +847,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
                 params.setMargins(0, 0, 0, 50);
                 // move location
-                onClickWinch();
-                onClickMechanic();
-                onClickCar();
+//                onClickWinch();
+//                onClickMechanic();
+//                onClickCar();
+                uploadAndDownlod();
 
             }
 
@@ -783,6 +912,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     }
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newpostion, 18f));
                     //we will get addriss name
+                    MakeDriverOnline(locationResult.getLastLocation(),reference);
                     if(!isTripStart) {
                       MakeDriverOnline(locationResult.getLastLocation(),reference);
                     }else {
@@ -830,18 +960,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         updateDriverLocation(location,reference);
                     }
                 });
-            }else {
-                updateDriverLocation(location,reference);
             }
+        }else {
+            updateDriverLocation(location,reference);
         }
-
-
-
-
-
-
-
-
 
     }
 
@@ -890,62 +1012,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         // mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        dexter(  );
-        database=FirebaseDatabase.getInstance();
-        switch (pointer){
+        dexter( );
 
-            case 1:
 
-                databaseReference=database .getReference( "DriverInfo");
-                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Common.driverInfo =snapshot.getValue(DriverInfo.class);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-                break;
-            case 2:
-
-                databaseReference=database .getReference( "MechanicInfo");
-                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Common.driverInfo =snapshot.getValue(DriverInfo.class);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-                break;
-            case 3:
-
-                databaseReference=database .getReference( "RescueWinchInfo");
-                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Common.driverInfo =snapshot.getValue(DriverInfo.class);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-                break;
-        }
 
         try {
             Boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.uber_maps_style));
@@ -1163,7 +1232,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                             TripPlanModel tripPlanModel=new TripPlanModel();
                                             tripPlanModel.setDriver(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                             tripPlanModel.setRider(event.getKey());
-                                            tripPlanModel.setDriverInfo(Common.driverInfo);
+                                            tripPlanModel.setDriverInfo(driverInfo);
                                             tripPlanModel.setRiderModel(riderModel);
                                             tripPlanModel.setOrigin(event.getPickuplocation());
                                             tripPlanModel.setOriginString(event.getPickuplocationstring());
@@ -1185,6 +1254,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                                     txt_rider_name.setText(riderModel.getName());
                                                     txt_start_carrescue_estimate_time.setText(duration);
                                                     txt_start_carrescue_estimate_distance.setText(distance);
+                                                    if(pointer==2||pointer==3){
+                                                        txt_start_type_car.setText(event.getCartype());
+                                                    }else if(pointer==1){
+                                                        relative_type_car.setVisibility(View.GONE);
+                                                    }
 
                                                     setOfflineModeForDriver(event,duration,distance);
 
@@ -1223,6 +1297,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         setprocesslayout(false);
         layout_accept.setVisibility(View.GONE);
         layout_start_carRescue.setVisibility(View.VISIBLE);
+        if(pointer==2){
+            btn_complete_trip.setVisibility(View.VISIBLE);
+            btn_start_carrescue.setVisibility(View.GONE);
+        }
         isTripStart=true;
     }
 

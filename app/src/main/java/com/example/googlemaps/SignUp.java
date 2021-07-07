@@ -52,17 +52,17 @@ public class SignUp extends AppCompatActivity {
 
                     case R.id.driver:
                         Common.DRIVER__INFO="DriverInfo";
-                        databaseReference=database .getReference( "DriverInfo");
+                        databaseReference=database .getReference( Common.DRIVER__INFO);
                         service="Driver";
                         break;
                     case R.id.mechanic:
-                        Common. DRIVER__INFO="MechanicInfo";
-                        databaseReference=database .getReference( "MechanicInfo");
+
+                        databaseReference=database .getReference( Common.DRIVER__INFO);
                         service="Mechanic";
                         break;
                     case R.id.rescue_winch:
-                        Common.DRIVER__INFO="RescueWinchInfo";
-                        databaseReference=database .getReference( "RescueWinchInfo");
+
+                        databaseReference=database .getReference(Common.DRIVER__INFO);
                         service="RescueWinch";
                         break;
                 }
