@@ -6,7 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.SQLException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -471,30 +475,35 @@ ResetPassword();
         sinin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                String email = username.getText().toString().trim();
-                String password = passwordd.getText().toString().trim();
+                if(!isConnected(SplashActivity.this)){
+                    Toast.makeText(SplashActivity.this, " Please check Internet Connection!", Toast.LENGTH_SHORT).show();
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    username.setError("enter vaild email");
-                    username.requestFocus();
-                    return;
                 }
-                if(email.isEmpty()){
-                    username .setError("Requer");
-                    username.requestFocus();
-                    return;
-                }
-                if(password.isEmpty()){
-                    passwordd .setError("Requred");
-                   passwordd.requestFocus();
-                    return;
-                }
+                else {
+                    String email = username.getText().toString().trim();
+                    String password = passwordd.getText().toString().trim();
 
-                if(password.length()<6){
-                    passwordd .setError("length must 6 Number");
-                    passwordd.requestFocus();
-                    return;
-                }
+                    if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                        username.setError("enter vaild email");
+                        username.requestFocus();
+                        return;
+                    }
+                    if(email.isEmpty()){
+                        username .setError("Requer");
+                        username.requestFocus();
+                        return;
+                    }
+                    if(password.isEmpty()){
+                        passwordd .setError("Requred");
+                        passwordd.requestFocus();
+                        return;
+                    }
+
+                    if(password.length()<6){
+                        passwordd .setError("length must 6 Number");
+                        passwordd.requestFocus();
+                        return;
+                    }
 
                     auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -511,11 +520,25 @@ ResetPassword();
                             }
                         }
                     });
+                }
+
+
 
             }
         });
 
 
+
+    }
+    private boolean isConnected(SplashActivity splashActivity) {
+        ConnectivityManager connectivityManager= (ConnectivityManager) splashActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiConn=connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileConn=connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if((wifiConn!=null&&wifiConn.isConnected())||(mobileConn!=null&&mobileConn.isConnected())){
+            return true;
+        }else {
+            return false;
+        }
 
     }
 

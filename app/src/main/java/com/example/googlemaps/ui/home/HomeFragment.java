@@ -193,6 +193,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private boolean isTripStart = false, onLineSystemAlreadyRegister = false;
     private GeoFire geoFire, pickupGeofire, destinationGeoFire;
     private GeoQuery pickupGeoQuery, destinationGeoQuery;
+    /*
     private GeoQueryEventListener pickupGeoQueryListener = new GeoQueryEventListener() {
         @Override
         public void onKeyEntered(String key, GeoLocation location) {
@@ -264,6 +265,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         }
     };
+
+     */
     private CountDownTimer wait_time;
     private String refer = "";
     private String cityName="";
@@ -350,6 +353,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @OnClick(R.id.btn_complete_trip)
     void onClickComplete() {
+
         //put isDone on tripinformation in firebase
         Map<String, Object> update_trip = new HashMap<>();
         update_trip.put("done", true);
@@ -383,9 +387,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         circularProgressBar.setProgress(0);
                         progress_notify.setProgress(0);
                       //  btn_complete_trip.setEnabled(false);
-                       // btn_complete_trip.setVisibility(View.GONE);
+                       btn_complete_trip.setVisibility(View.GONE);
                        // btn_start_carrescue.setEnabled(false);
-                       // btn_start_carrescue.setVisibility(View.VISIBLE);
+                        btn_start_carrescue.setVisibility(View.VISIBLE);
                         destinationGeoFire=null;
                         pickupGeofire=null;
                         driverRequestRecieve=null;
@@ -468,7 +472,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                             .include(origin)
                                             .include(destination)
                                             .build();
-                                    CreateGeoFileDestinationLocation(driverRequestRecieve.getKey(),destination);
+                                  //  CreateGeoFileDestinationLocation(driverRequestRecieve.getKey(),destination);
 
 
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 160));
@@ -898,6 +902,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     super.onLocationResult(locationResult);
 
                     LatLng newpostion = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                    /*
                     if(pickupGeofire!=null){//after create on firebase
                         pickupGeoQuery=pickupGeofire.queryAtLocation(new GeoLocation(locationResult.getLastLocation().getLatitude(),locationResult.getLastLocation().getLongitude())
                                 ,Common.MIN_RANGE_PICKUP_IN_KM);
@@ -910,6 +915,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         destinationGeoQuery.addGeoQueryEventListener(destinationGeoQueryListener);
 
                     }
+
+                     */
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newpostion, 18f));
                     //we will get addriss name
                     MakeDriverOnline(locationResult.getLastLocation(),reference);
@@ -1133,7 +1140,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                                             .icon(BitmapDescriptorFactory.defaultMarker())
                                             .title("Pickup Location")
                                     );
-                                    createGeofirePickupLocation(event.getKey(),destination);
+                                    //createGeofirePickupLocation(event.getKey(),destination);
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 160));
                                     mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.getCameraPosition().zoom - 1));
                                     //show layout
@@ -1297,9 +1304,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         setprocesslayout(false);
         layout_accept.setVisibility(View.GONE);
         layout_start_carRescue.setVisibility(View.VISIBLE);
+        if(pointer==1||pointer==3){
+            btn_start_carrescue.setVisibility(View.VISIBLE);
+        }
+
         if(pointer==2){
             btn_complete_trip.setVisibility(View.VISIBLE);
             btn_start_carrescue.setVisibility(View.GONE);
+
         }
         isTripStart=true;
     }
