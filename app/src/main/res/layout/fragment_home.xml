@@ -78,7 +78,7 @@
         android:layout_margin="@dimen/_16sdp"
         android:textColor="@android:color/white"
         android:text="@string/decline"
-        app:chipBackgroundColor="@color/colorAccent"
+        app:chipBackgroundColor="@color/colorPrimary"
         app:chipIcon="@drawable/ic_baseline_clear_24"
         app:checkedIconTint="@android:color/white"
         android:id="@+id/chip_decline"/>
@@ -90,7 +90,7 @@
         android:layout_margin="@dimen/_8sdp"
         android:layout_gravity="bottom"
         android:visibility="gone"
-        app:cardBackgroundColor="@color/colorAccent"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_8sdp"
         >
         <LinearLayout
@@ -113,7 +113,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/_8sdp"
                     android:text="CARRESCUE"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_18sdp"/>
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -124,12 +124,12 @@
                         android:id="@+id/circularProgressBar"
                         android:layout_width="@dimen/_60sdp"
                         android:layout_height="@dimen/_60sdp"
-                        app:cpb_background_progressbar_color="@android:color/white"
+                        app:cpb_background_progressbar_color="@color/colorPrimary"
                         app:cpb_background_progressbar_width="3dp"
                         app:cpb_progress="0"
                         app:cpb_progress_max="100"
                         app:cpb_progress_direction="to_right"
-                        app:cpb_progressbar_color="#151828"
+                        app:cpb_progressbar_color="#F3F3F6"
                         app:cpb_progressbar_width="@dimen/_3sdp"
                         app:cpb_round_border="false" />
 
@@ -141,7 +141,7 @@
                         android:clickable="false"
                         android:layout_centerInParent="true"
                         android:src="@drawable/ic_baseline_person_24"
-                        app:tint="@android:color/white" />
+                        app:tint="@color/colorPrimary" />
                 </RelativeLayout>
 
                 <TextView
@@ -153,7 +153,7 @@
                     android:text="4.25"
                     android:drawableRight="@drawable/ic_baseline_star_24"
 
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_18sdp"/>
             </LinearLayout>
             <TextView
@@ -163,7 +163,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="2 min"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_20sdp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
                 android:layout_gravity="center_horizontal"
 
                 android:text=".4 km"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_16sdp"/>
 
         </LinearLayout>
@@ -215,6 +215,7 @@
         android:layout_height="wrap_content"
         android:text="1 min"
         android:layout_toLeftOf="@+id/img_start_carrescue"
+        android:textColor="@color/colorPrimary"
         android:layout_centerVertical="true"
         android:textStyle="bold"
         />
@@ -224,6 +225,7 @@
         android:layout_height="wrap_content"
         android:text=".5 km"
         android:layout_toRightOf="@+id/img_start_carrescue"
+        android:textColor="@color/colorPrimary"
         android:layout_centerVertical="true"
         android:textStyle="bold"
         />
@@ -234,7 +236,7 @@
                 android:layout_height="@dimen/_1sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
-                android:background="@color/colorAccent"
+                android:background="@color/colorPrimary"
                 />
             <LinearLayout
                 android:id="@+id/layout_notify_rider"
@@ -248,6 +250,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="02:00"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_18sdp"
 
                     />
@@ -257,6 +260,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:indeterminate="false"
+
                     android:min="0"
                     android:max="120"
 
@@ -286,10 +290,11 @@
                     android:layout_height="wrap_content"
                     android:text="BMW"
                     android:layout_toRightOf="@+id/img_start_car"
+
                     android:layout_centerVertical="true"
                     android:textStyle="bold"
                     android:textSize="@dimen/_15sdp"
-                    android:textColor="@color/Black"
+                    android:textColor="@color/colorPrimary"
                     />
 
             </RelativeLayout>
@@ -310,7 +315,7 @@
                     android:textSize="@dimen/_16sdp"
                     android:text="mahmoud"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorPrimary"
                     />
                 <ImageView
                     android:id="@+id/img_three_dot"
@@ -335,7 +340,7 @@
           app:lb_isCircular="false"
           android:text="@string/start_carrescure"
           android:textColor="@color/white"
-          app:lb_buttonColor="@color/Black"
+          app:lb_buttonColor="@color/colorPrimary"
           android:textStyle="bold"
           android:textSize="@dimen/_16sdp"
           />
@@ -351,7 +356,7 @@
           app:lb_isCircular="false"
           android:text="@string/complete"
           android:textColor="@color/white"
-          app:lb_buttonColor="@color/Black"
+          app:lb_buttonColor="@color/colorPrimary"
           android:textStyle="bold"
           android:textSize="@dimen/_16sdp"
           />

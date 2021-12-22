@@ -4,6 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/gradient.xml" value="0.19444444444444445" />
+        <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/ic_baseline_directions_car_24.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/ic_baseline_perm_phone_msg_24.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.275" />
+        <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.275" />
         <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/drawable/rounded.xml" value="0.19444444444444445" />
         <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/layout/activity_driver_home.xml" value="0.18704710144927536" />
         <entry key="..\:/AndroidStudioProjects/AndroidStudioProjects/GoogleMaps/app/src/main/res/layout/activity_sign_up.xml" value="0.18704710144927536" />
